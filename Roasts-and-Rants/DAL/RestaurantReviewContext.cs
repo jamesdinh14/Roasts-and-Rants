@@ -9,7 +9,7 @@ namespace Roasts_and_Rants.DAL {
 
 	public class RestaurantReviewContext : DbContext {
 
-		public RestaurantReviewContext() : base("RestaurantReviewDb_Alpha") {
+		public RestaurantReviewContext() : base("RestaurantReviewDb") {
 
 		}
 
