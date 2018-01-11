@@ -12,6 +12,8 @@ namespace Roasts_and_Rants.Models {
 	/// Has a many-to-many relationship with User
 	///    Association class: Review
 	///    Has a one-to-many relationship with Review
+	/// 
+	/// Has a one-to-one relationship with Address
 	/// </summary>
 	public class Restaurant {
 
@@ -19,7 +21,11 @@ namespace Roasts_and_Rants.Models {
 		public int RestaurantID { get; set; }
 
 		public string Name { get; set; }
-		public Address Address { get; set; }
+
+		/// <summary>
+		/// Reference to the Address of a restaurant
+		/// </summary>
+		public virtual Address Address { get; set; }
 
 		/// <summary>
 		/// Represents the one-to-many relationship between Restaurant and Review

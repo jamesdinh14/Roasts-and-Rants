@@ -21,21 +21,6 @@ namespace Roasts_and_Rants.Controllers
             return View(db.Restaurants.ToList());
         }
 
-        // GET: Restaurant/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Restaurant restaurant = db.Restaurants.Find(id);
-            if (restaurant == null)
-            {
-                return HttpNotFound();
-            }
-            return View(restaurant);
-        }
-
 		// Get Restaurant/Reviews
 		public ActionResult Reviews(int? id) {
 

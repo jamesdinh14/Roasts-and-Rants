@@ -14,7 +14,7 @@ namespace Roasts_and_Rants.DAL {
 
 		protected override void Seed(RestaurantReviewContext context) {
 			var users = new List<User>() {
-				new User() { Email = "Chase@example.com", Username="ChaseVisa", Password= "123456" },
+				new User() { Email = "Chase@example.com", Username = "ChaseVisa", Password = "123456" },
 				new User() { Email = "John@hotmail.com", Username = "John with a G", Password = "Adoboseasoning" },
 				new User() { Email = "James@nugget.com", Username = "MenG", Password = "Runwithgold" },
 				new User() { Email = "PlasmaxTravis@gmail.com", Username = "Plasmax167", Password = "Injustice2" },
@@ -25,19 +25,22 @@ namespace Roasts_and_Rants.DAL {
 			users.ForEach(u => context.Users.Add(u));
 			context.SaveChanges();
 
-			var addresses = new List<Address>() {
-				new Address() { Street = "11730 Plaza America Dr", City = "Reston", State = "VA", Country = "US", PostalCode = "20190"},
-				new Address() { Street = "11660 Plaza America Dr", City = "Reston", State = "VA", Country = "US", PostalCode = "20190"},
-				new Address() { Street = "890 Beach Blvd", City = "Huntington Beach", State = "CA", Country = "US", PostalCode = "92690" }
+			var restaurants = new List<Restaurant>() {
+				new Restaurant() { Name = "Five Guys" },
+				new Restaurant() { Name = "Whole Foods" },
+				new Restaurant() { Name = "In-N-Out Burger" }
 			};
 
-			var restaurants = new List<Restaurant>() {
-				new Restaurant() { Name = "Five Guys", Address = addresses[0] },
-				new Restaurant() { Name = "Whole Foods", Address = addresses[1] },
-				new Restaurant() { Name = "In-N-Out Burger", Address = addresses[2] }
+			var addresses = new List<Address>() {
+				new Address() { AddressID = 1, Street = "11730 Plaza America Dr", City = "Reston", State = "VA", Country = "US", PostalCode = "20190" },
+				new Address() { AddressID = 2, Street = "11660 Plaza America Dr", City = "Reston", State = "VA", Country = "US", PostalCode = "20190"},
+				new Address() { AddressID = 3, Street = "890 Beach Blvd", City = "Huntington Beach", State = "CA", Country = "US", PostalCode = "92690" }
 			};
 
 			restaurants.ForEach(r => context.Restaurants.Add(r));
+			context.SaveChanges();
+
+			addresses.ForEach(a => context.Addresses.Add(a));			
 			context.SaveChanges();
 
 			var reviews = new List<Review>() {

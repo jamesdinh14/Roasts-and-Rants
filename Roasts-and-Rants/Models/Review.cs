@@ -35,14 +35,14 @@ namespace Roasts_and_Rants.Models {
 		/// </summary>
 		[ForeignKey("Restaurant")]
 		public int RestaurantID { get; set; }
-		public Restaurant Restaurant { get; set; }
+		public virtual Restaurant Restaurant { get; set; }
 
 		/// <summary>
 		/// Reference to User
 		/// </summary>
 		[ForeignKey("User")]
 		public string UserEmail { get; set; }
-		public User User { get; set; }
+		public virtual User User { get; set; }
 		
 	}
 }
