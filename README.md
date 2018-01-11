@@ -4,7 +4,7 @@ Requirements list
 1. ~~Displays Application name~~
 2. ~~Restaurant link in Menu bar~~
 3. ~~Restaurants display Reviews~~
-4. Display Address correctly (combined fields)
+4. ~~Display Address correctly (combined fields)~~
 5. Average rating of reviews on Restaurant Index page
 6. Search Restaurants by
     1. Name

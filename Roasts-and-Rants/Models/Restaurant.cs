@@ -21,11 +21,13 @@ namespace Roasts_and_Rants.Models {
 		public int RestaurantID { get; set; }
 
 		public string Name { get; set; }
+		public string Phone { get; set; }
 
 		/// <summary>
 		/// Reference to the Address of a restaurant
 		/// </summary>
 		public virtual Address Address { get; set; }
+
 
 		/// <summary>
 		/// Represents the one-to-many relationship between Restaurant and Review

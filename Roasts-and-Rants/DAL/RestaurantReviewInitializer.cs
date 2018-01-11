@@ -26,9 +26,9 @@ namespace Roasts_and_Rants.DAL {
 			context.SaveChanges();
 
 			var restaurants = new List<Restaurant>() {
-				new Restaurant() { Name = "Five Guys" },
-				new Restaurant() { Name = "Whole Foods" },
-				new Restaurant() { Name = "In-N-Out Burger" }
+				new Restaurant() { Name = "Five Guys", Phone = "654-908-8872" },
+				new Restaurant() { Name = "Whole Foods", Phone = "654-908-3267" },
+				new Restaurant() { Name = "In-N-Out Burger", Phone = "714-887-2218" }
 			};
 
 			var addresses = new List<Address>() {
