@@ -1,0 +1,54 @@
+﻿@model Roasts_and_Rants.Models.Restaurant
+
+@{
+	ViewBag.Title = "Reviews";
+}
+
+<h2>Reviews</h2>
+
+<div>
+	<h4>Review</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.Name)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.Name)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Address)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.Address)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Reviews)
+		</dt>
+		<dd>
+			<table class="table">
+				<tr>
+					<th>Username</th>
+					<th>Rating</th>
+					<th>Comment</th>
+				</tr>
+				@foreach (var item in Model.Reviews) {
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.User.Username)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Rating)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Content)
+						</td>
+					</tr>
+				 }
+			</table>
+		</dd>
+	</dl>
+</div>
+<p>
+	@Html.ActionLink("Back to List", "Index")
+</p>
