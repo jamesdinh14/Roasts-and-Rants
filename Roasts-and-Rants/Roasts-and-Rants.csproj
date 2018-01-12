@@ -197,6 +197,7 @@
     <Compile Include="DAL\RestaurantReviewConfiguration.cs" />
     <Compile Include="DAL\RestaurantReviewContext.cs" />
     <Compile Include="DAL\RestaurantReviewInitializer.cs" />
+    <Compile Include="Filters\LogFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -212,6 +213,10 @@
     <Compile Include="Migrations\201801120050139_RegexModelRestrictions.cs" />
     <Compile Include="Migrations\201801120050139_RegexModelRestrictions.Designer.cs">
       <DependentUpon>201801120050139_RegexModelRestrictions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801121739495_ComputedColumnAverageRating.cs" />
+    <Compile Include="Migrations\201801121739495_ComputedColumnAverageRating.Designer.cs">
+      <DependentUpon>201801121739495_ComputedColumnAverageRating.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -317,6 +322,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801120050139_RegexModelRestrictions.resx">
       <DependentUpon>201801120050139_RegexModelRestrictions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801121739495_ComputedColumnAverageRating.resx">
+      <DependentUpon>201801121739495_ComputedColumnAverageRating.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

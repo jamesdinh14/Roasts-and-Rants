@@ -14,6 +14,8 @@ namespace Roasts_and_Rants {
 
 		/// <summary>
 		/// Replaces the C# newline character with HTML line break character
+		/// 
+		/// Idea and implementation  credit goes to user cwills from stackoverflow
 		/// </summary>
 		public static MvcHtmlString DisplayWithBreaksFor<TModel, TValue>(this HtmlHelper<TModel> html,
 			Expression<Func<TModel, TValue>> expression) {

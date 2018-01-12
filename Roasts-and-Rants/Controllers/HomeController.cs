@@ -10,8 +10,7 @@ namespace Roasts_and_Rants.Controllers {
 			return View();
 		}
 
-		public ActionResult About() {
-			ViewBag.Message = "Your application description page.";
+		public ActionResult About() { 
 
 			return View();
 		}

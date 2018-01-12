@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Roasts_and_Rants.DAL;
 using Roasts_and_Rants.Models;
+using Roasts_and_Rants.Filters;
 
 namespace Roasts_and_Rants.Controllers
 {
@@ -15,7 +16,9 @@ namespace Roasts_and_Rants.Controllers
     {
         private RestaurantReviewContext db = new RestaurantReviewContext();
 
+		// Receives id from RestaurantController
 		// GET: Review/id
+		[Log(Message = "ReviewController Index")]
 		public ActionResult Index(int? id) {
 
 			if (id == null) {
@@ -31,7 +34,9 @@ namespace Roasts_and_Rants.Controllers
 			return View(restaurant);
 		}
 
+		// Currently, not in use
         // GET: Review/Details/5
+		[Log]
         public ActionResult Details(int? id)
         {
             if (id == null)

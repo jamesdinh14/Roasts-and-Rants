@@ -6,10 +6,12 @@
 
 <h2>@ViewBag.Title</h2>
 
+<p>@Html.ActionLink("Add a new Restaurant", "Create")</p>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+			@Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParam })
         </th>
 		<th>
 			@Html.DisplayNameFor(model => model.Address)
@@ -18,7 +20,7 @@
 			@Html.DisplayNameFor(model => model.Phone)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.AverageRating) / 10.00
+			@Html.ActionLink("Average Rating", "Index", new { sortOrder = ViewBag.RatingSortParam }) / 10.00
 		</th>
         <th></th>
     </tr>

@@ -33,13 +33,16 @@ namespace Roasts_and_Rants.Models {
 		/// <summary>
 		/// Reference to the Address of a restaurant
 		/// </summary>
-		public virtual Address Address { get; set; }
+		public Address Address { get; set; }
 
 		/// <summary>
 		/// Represents the one-to-many relationship between Restaurant and Review
 		/// </summary>
 		public virtual List<Review> Reviews { get; set; }
 
+		/// <summary>
+		/// Computed column
+		/// </summary>
 		[NotMapped]
 		[Display(Name = "Average Rating")]
 		public decimal AverageRating { get; set; }
