@@ -14,7 +14,15 @@ namespace Roasts_and_Rants {
 				name: "Default",
 				url: "{controller}/{action}/{id}",
 				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+				
 			);
+
+			routes.MapRoute(
+				name: "Reviews",
+				url: "{controller}/{action}/{id}",
+				defaults: new { controller = "Review", action = "Index", id = UrlParameter.Optional
+			});
+
 		}
 	}
 }

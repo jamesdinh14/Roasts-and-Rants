@@ -18,6 +18,15 @@ namespace Roasts_and_Rants.Controllers
         // GET: Restaurant
         public ActionResult Index()
         {
+			
+			foreach (Restaurant rest in db.Restaurants) {
+				decimal average = 0;
+				foreach (Review review in rest.Reviews) {
+					average += review.Rating;
+				}
+				rest.AverageRating = average / rest.Reviews.Count;
+			}
+			
             return View(db.Restaurants.ToList());
         }
 
@@ -28,18 +37,13 @@ namespace Roasts_and_Rants.Controllers
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			Restaurant restaurant = db.Restaurants.Find(id);
-
-			if (restaurant == null) {
-				return HttpNotFound();
-			}
-
-			return View(restaurant);
+			return RedirectToAction("Index", "Review", new { id = id});
 		}
 
         // GET: Restaurant/Create
         public ActionResult Create()
         {
+			ViewBag.Message = "Create new restaurant";
             return View();
         }
 

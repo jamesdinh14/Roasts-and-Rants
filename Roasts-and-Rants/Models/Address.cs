@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Linq.Expressions;
@@ -15,13 +16,16 @@ namespace Roasts_and_Rants.Models {
 	/// 
 	/// </summary>
 	public class Address {
-		
+
 		[ForeignKey("Restaurant")]
 		public int AddressID { get; set; }
 
 		public string Street { get; set; }
 		public string City { get; set; }
 		public string State { get; set; }
+
+		[DataType(DataType.PostalCode)]
+		[RegularExpression(@"^(?!0+$)[0-9]{5,5}$", ErrorMessage = "Please enter a valid zipcode")]
 		public string PostalCode { get; set; }
 		public string Country { get; set; }
 

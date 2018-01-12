@@ -12,11 +12,11 @@ namespace Roasts_and_Rants.Migrations
                 c => new
                     {
                         AddressID = c.Int(nullable: false),
-                        Street = c.String(),
-                        City = c.String(),
-                        State = c.String(),
-                        PostalCode = c.String(),
-                        Country = c.String(),
+                        Street = c.String(nullable: false),
+                        City = c.String(nullable: false),
+                        State = c.String(nullable: false),
+                        PostalCode = c.String(nullable: false),
+                        Country = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.AddressID)
                 .ForeignKey("dbo.Restaurants", t => t.AddressID)
@@ -27,7 +27,7 @@ namespace Roasts_and_Rants.Migrations
                 c => new
                     {
                         RestaurantID = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false),
                         Phone = c.String(),
                     })
                 .PrimaryKey(t => t.RestaurantID);
@@ -40,7 +40,7 @@ namespace Roasts_and_Rants.Migrations
                         Rating = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Content = c.String(),
                         RestaurantID = c.Int(nullable: false),
-                        UserEmail = c.String(maxLength: 128),
+                        UserEmail = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.ReviewID)
                 .ForeignKey("dbo.Restaurants", t => t.RestaurantID, cascadeDelete: true)
@@ -54,7 +54,7 @@ namespace Roasts_and_Rants.Migrations
                     {
                         Email = c.String(nullable: false, maxLength: 128),
                         Username = c.String(),
-                        Password = c.String(),
+                        Password = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.Email);
             

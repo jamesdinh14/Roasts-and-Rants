@@ -6,14 +6,20 @@
 
 <h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
+		<th>
+			@Html.DisplayNameFor(model => model.Address)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Phone)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.AverageRating) / 10.00
+		</th>
         <th></th>
     </tr>
 
@@ -22,10 +28,17 @@
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
+		<td>
+			@Html.DisplayWithBreaksFor(modelItem => item.Address)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Phone)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.AverageRating) (@Html.DisplayFor(modelItem => item.Reviews.Count) reviews)
+		</td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RestaurantID }) |
-            @Html.ActionLink("Reviews", "Reviews", new { id=item.RestaurantID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RestaurantID })
+            @Html.ActionLink("Reviews", "Reviews", new { id=item.RestaurantID })
         </td>
     </tr>
 }

@@ -193,6 +193,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RestaurantController.cs" />
+    <Compile Include="Controllers\ReviewController.cs" />
+    <Compile Include="DAL\RestaurantReviewConfiguration.cs" />
     <Compile Include="DAL\RestaurantReviewContext.cs" />
     <Compile Include="DAL\RestaurantReviewInitializer.cs" />
     <Compile Include="Global.asax.cs">
@@ -202,6 +204,14 @@
     <Compile Include="Migrations\201801111654522_InitialCreate.cs" />
     <Compile Include="Migrations\201801111654522_InitialCreate.Designer.cs">
       <DependentUpon>201801111654522_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801111942068_ModelRestrictions1.cs" />
+    <Compile Include="Migrations\201801111942068_ModelRestrictions1.Designer.cs">
+      <DependentUpon>201801111942068_ModelRestrictions1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801120050139_RegexModelRestrictions.cs" />
+    <Compile Include="Migrations\201801120050139_RegexModelRestrictions.Designer.cs">
+      <DependentUpon>201801120050139_RegexModelRestrictions.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -276,6 +286,11 @@
     <Content Include="Views\Restaurant\Edit.cshtml" />
     <Content Include="Views\Restaurant\Index.cshtml" />
     <Content Include="Views\Restaurant\Reviews.cshtml" />
+    <Content Include="Views\Review\Create.cshtml" />
+    <Content Include="Views\Review\Delete.cshtml" />
+    <Content Include="Views\Review\Details.cshtml" />
+    <Content Include="Views\Review\Edit.cshtml" />
+    <Content Include="Views\Review\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -296,6 +311,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201801111654522_InitialCreate.resx">
       <DependentUpon>201801111654522_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801111942068_ModelRestrictions1.resx">
+      <DependentUpon>201801111942068_ModelRestrictions1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801120050139_RegexModelRestrictions.resx">
+      <DependentUpon>201801120050139_RegexModelRestrictions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

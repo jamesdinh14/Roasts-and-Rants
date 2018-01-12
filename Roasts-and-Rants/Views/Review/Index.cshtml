@@ -1,0 +1,42 @@
+﻿@model Roasts_and_Rants.Models.Restaurant
+
+@{
+	ViewBag.Title = "Reviews";
+}
+
+<h2>Reviews for @Model.Name</h2>
+
+<p>
+	@Html.ActionLink("Add a review", "Create")
+</p>
+
+<div>
+	<table class="table">
+		<tr>
+			<th>Username</th>
+			<th>Rating</th>
+			<th>Comment</th>
+		</tr>
+		@foreach (var item in Model.Reviews) {
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.User.Username)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Rating)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Content)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id = item.ReviewID}) |
+					@Html.ActionLink("Delete", "Delete", new { id = item.ReviewID })
+				</td>
+			</tr>
+
+		}
+	</table>
+</div>
+<p>
+	@Html.ActionLink("Back to Restaurants", "Index", "Restaurant")
+</p>
