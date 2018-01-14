@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,15 +19,19 @@ namespace Roasts_and_Rants.Models {
 	public class Address {
 
 		[ForeignKey("Restaurant")]
+		[ScaffoldColumn(false)]
 		public int AddressID { get; set; }
 
 		public string Street { get; set; }
 		public string City { get; set; }
 		public string State { get; set; }
 
+
 		[DataType(DataType.PostalCode)]
-		[RegularExpression(@"^(?!0+$)[0-9]{5,5}$", ErrorMessage = "Please enter a valid zipcode")]
+		[RegularExpression(@"^(?!0+$)[0-9]{5,5}$", ErrorMessage = "Please enter a valid zip code")]
+		[Display(Name = "Zip code")]
 		public string PostalCode { get; set; }
+
 		public string Country { get; set; }
 
 		/// <summary>
@@ -42,7 +47,8 @@ namespace Roasts_and_Rants.Models {
 		/// USA
 		/// </summary> 
 		public override string ToString() {
-			return Street + "\n" + City + ", "  + State + " " + PostalCode + "\n" + Country;
+			if (Street == null && City == null && State == null && PostalCode == null && Country == null) { return ""; }
+			return Street + "\n" + City + ", " + State + " " + PostalCode + "\n" + Country;
 		}
-	}
+	}		
 }

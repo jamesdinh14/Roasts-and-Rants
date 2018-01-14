@@ -8,6 +8,13 @@
 
 <p>@Html.ActionLink("Add a new Restaurant", "Create")</p>
 
+@using (Html.BeginForm()) {
+		<p>
+			Find by name, phone, or address: @Html.TextBox("SearchString")
+			<input type="submit" value="Search" />
+		</p>
+}
+
 <table class="table">
     <tr>
         <th>
@@ -37,10 +44,17 @@
 			@Html.DisplayFor(modelItem => item.Phone)
 		</td>
 		<td>
-			@Html.DisplayFor(modelItem => item.AverageRating) (@Html.DisplayFor(modelItem => item.Reviews.Count) reviews)
+			@{
+				if (item.Reviews.Count > 0) {
+					@Html.DisplayFor(modelItem => item.AverageRating);
+				}
+			}
+			(@Html.DisplayFor(modelItem => item.Reviews.Count) reviews)
 		</td>
         <td>
-            @Html.ActionLink("Reviews", "Reviews", new { id=item.RestaurantID })
+            @Html.ActionLink("Reviews", "Reviews", new { id = item.RestaurantID }) |
+			@Html.ActionLink("Edit", "Edit", new { id = item.RestaurantID }) |
+			@Html.ActionLink("Delete", "Delete", new { id = item.RestaurantID })
         </td>
     </tr>
 }
