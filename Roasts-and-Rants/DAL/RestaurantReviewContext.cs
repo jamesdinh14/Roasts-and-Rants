@@ -14,8 +14,6 @@ namespace Roasts_and_Rants.DAL {
 		}
 
 		public DbSet<Restaurant> Restaurants { get; set; }
-		public DbSet<Address> Addresses { get; set; }
-		public DbSet<User> Users { get; set; }
 		public DbSet<Review> Reviews { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder) {

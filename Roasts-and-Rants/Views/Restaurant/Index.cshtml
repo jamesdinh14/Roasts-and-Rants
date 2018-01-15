@@ -1,34 +1,37 @@
 ﻿@model IEnumerable<Roasts_and_Rants.Models.Restaurant>
 
 @{
-    ViewBag.Title = "Restaurants";
+    ViewBag.Title = "Index";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>Index</h2>
 
-<p>@Html.ActionLink("Add a new Restaurant", "Create")</p>
-
-@using (Html.BeginForm()) {
-		<p>
-			Find by name, phone, or address: @Html.TextBox("SearchString")
-			<input type="submit" value="Search" />
-		</p>
-}
-
+<p>
+    @Html.ActionLink("Add a new restaurant", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
-			@Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParam })
+            @Html.DisplayNameFor(model => model.Name)
         </th>
-		<th>
-			@Html.DisplayNameFor(model => model.Address)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Phone)
-		</th>
-		<th>
-			@Html.ActionLink("Average Rating", "Index", new { sortOrder = ViewBag.RatingSortParam }) / 10.00
-		</th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Street)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostalCode)
+        </th>
         <th></th>
     </tr>
 
@@ -37,24 +40,28 @@
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
-		<td>
-			@Html.DisplayWithBreaksFor(modelItem => item.Address)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.Phone)
-		</td>
-		<td>
-			@{
-				if (item.Reviews.Count > 0) {
-					@Html.DisplayFor(modelItem => item.AverageRating);
-				}
-			}
-			(@Html.DisplayFor(modelItem => item.Reviews.Count) reviews)
-		</td>
         <td>
-            @Html.ActionLink("Reviews", "Reviews", new { id = item.RestaurantID }) |
-			@Html.ActionLink("Edit", "Edit", new { id = item.RestaurantID }) |
-			@Html.ActionLink("Delete", "Delete", new { id = item.RestaurantID })
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Street)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.State)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Country)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostalCode)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RestaurantID }) |
+            @Html.ActionLink("Reviews", "Details", new { id=item.RestaurantID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RestaurantID })
         </td>
     </tr>
 }

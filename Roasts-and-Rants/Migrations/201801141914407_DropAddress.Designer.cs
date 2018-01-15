@@ -7,13 +7,13 @@ namespace Roasts_and_Rants.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ComputedColumnAverageRating : IMigrationMetadata
+    public sealed partial class DropAddress : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ComputedColumnAverageRating));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(DropAddress));
         
         string IMigrationMetadata.Id
         {
-            get { return "201801121739495_ComputedColumnAverageRating"; }
+            get { return "201801141914407_DropAddress"; }
         }
         
         string IMigrationMetadata.Source

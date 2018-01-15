@@ -34,7 +34,28 @@ namespace Roasts_and_Rants.Models {
 		/// <summary>
 		/// Reference to the Address of a restaurant
 		/// </summary>
-		public virtual Address Address { get; set; }
+		//public virtual Address Address { get; set; }
+
+		public string Street { get; set; }
+		public string City { get; set; }
+		public string State { get; set; }
+		public string Country { get; set; }
+
+		[DataType(DataType.PostalCode)]
+		[RegularExpression(@"^(?!0+$)[0-9]{5,5}$", ErrorMessage = "Please enter a valid zip code")]
+		[Display(Name = "Zip code")]
+		public string PostalCode { get; set; }
+
+		/// <summary>
+		/// Custom display method for a Restaurant's Address
+		/// 
+		/// 1234 Example St
+		/// Reston, VA, USA 20170
+		/// </summary>
+		/// <returns></returns>
+		public string DisplayAddress() {
+			return Street + "<br />" + City + ", " + State + ", " + Country + PostalCode;
+		}
 
 		/// <summary>
 		/// Represents the one-to-many relationship between Restaurant and Review

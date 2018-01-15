@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Roasts_and_Rants.Models;
-using Roasts_and_Rants.Binders;
 
 namespace Roasts_and_Rants
 {
@@ -18,7 +17,6 @@ namespace Roasts_and_Rants
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-			ModelBinders.Binders.Add(typeof(Restaurant), new RestaurantDataBinder());
         }
     }
 }

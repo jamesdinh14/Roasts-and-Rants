@@ -12,7 +12,7 @@ namespace Roasts_and_Rants.Models {
 	///		Association class: Review
 	///		Has a one-to-many relationship with Review
 	/// </summary>
-	public class User {
+	public sealed class User {
 
 		/// <summary>
 		/// Unique identifier for a User
@@ -40,6 +40,6 @@ namespace Roasts_and_Rants.Models {
 		/// <summary>
 		/// Represents the one-to-many relationship between User and Review
 		/// </summary>
-		public virtual List<Review> Reviews { get; set; }
+		public List<Review> Reviews { get; set; }
 	}
 }

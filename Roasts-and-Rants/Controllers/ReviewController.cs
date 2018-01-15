@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using Roasts_and_Rants.DAL;
 using Roasts_and_Rants.Models;
-using Roasts_and_Rants.Filters;
 
 namespace Roasts_and_Rants.Controllers
 {
@@ -18,7 +17,6 @@ namespace Roasts_and_Rants.Controllers
 
 		// Receives id from RestaurantController
 		// GET: Review/id
-		[Log(Message = "ReviewController Index")]
 		public ActionResult Index(int? id) {
 
 			if (id == null) {
@@ -36,7 +34,6 @@ namespace Roasts_and_Rants.Controllers
 
 		// Currently, not in use
         // GET: Review/Details/5
-		[Log]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -52,10 +49,10 @@ namespace Roasts_and_Rants.Controllers
         }
 
         // GET: Review/Create
-        public ActionResult Create()
+        public ActionResult Create(int RestaurantID, string UserEmail)
         {
             ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name");
-            ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username");
+            //ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username");
             return View();
         }
 
@@ -64,8 +61,9 @@ namespace Roasts_and_Rants.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ReviewID,Rating,Content,ModifiedDate,RestaurantID,UserEmail")] Review review)
+        public ActionResult Create([Bind(Include = "Rating,Content")] Review review)
         {
+
             if (ModelState.IsValid)
             {
                 db.Reviews.Add(review);
@@ -74,7 +72,7 @@ namespace Roasts_and_Rants.Controllers
             }
 
             ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name", review.RestaurantID);
-            ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
+            //ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
             return View(review);
         }
 
@@ -91,7 +89,7 @@ namespace Roasts_and_Rants.Controllers
                 return HttpNotFound();
             }
             ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name", review.RestaurantID);
-            ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
+            //ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
             return View(review);
         }
 
@@ -109,7 +107,7 @@ namespace Roasts_and_Rants.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name", review.RestaurantID);
-            ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
+            //ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
             return View(review);
         }
 

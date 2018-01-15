@@ -27,7 +27,7 @@ namespace Roasts_and_Rants.Models {
 		private const string error_message = "Please give a rating from 1.00 to 10.00";
 		[Required(ErrorMessage = error_message)]
 		[Range(1.00, 10.00)]
-		[RegularExpression(@"^[0-9]{1,2}(.[0-9]{1,2})?$")]
+		[RegularExpression(@"^[0-9]{1,2}(.[0-9]{1,2})?$", ErrorMessage = "Please enter a valid rating.")]
 		public decimal Rating { get; set; }
 
 		/// <summary>
@@ -37,7 +37,7 @@ namespace Roasts_and_Rants.Models {
 		public string Content { get; set; }
 
 		[DataType(DataType.Date)]
-		[DisplayFormat(DataFormatString = "{0:mm-dd-yyyy}", ApplyFormatInEditMode = true)]
+		[DisplayFormat(DataFormatString = "{0:mm-dd-yyyy}")]
 		public DateTime ModifiedDate { get; set; }
 
 		/// <summary>
@@ -50,9 +50,7 @@ namespace Roasts_and_Rants.Models {
 		/// <summary>
 		/// Reference to User
 		/// </summary>
-		[ForeignKey("User")]
 		public string UserEmail { get; set; }
-		public virtual User User { get; set; }
 		
 	}
 }

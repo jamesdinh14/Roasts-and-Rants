@@ -7,7 +7,7 @@
 <h2>Reviews for @Model.Name</h2>
 
 <p>
-	@Html.ActionLink("Add a review", "Create")
+	@Html.ActionLink("Add a review", "Create", new {RestaurantID = Model.RestaurantID})
 </p>
 
 <div>
@@ -20,7 +20,7 @@
 		@foreach (var item in Model.Reviews) {
 			<tr>
 				<td>
-					@Html.DisplayFor(modelItem => item.User.Username)
+					<!--Display username-->
 				</td>
 				<td>
 					@Html.DisplayFor(modelItem => item.Rating)
@@ -30,7 +30,7 @@
 				</td>
 				<td>
 					@Html.ActionLink("Edit", "Edit", new { id = item.ReviewID }) |
-					@Html.ActionLink("Delete", "Delete", new { id = item.ReviewID })
+					@Html.ActionLink("Delete", "Delete", new { id = item.ReviewID, restaurantID = item.RestaurantID })
 				</td>
 			</tr>
 		}

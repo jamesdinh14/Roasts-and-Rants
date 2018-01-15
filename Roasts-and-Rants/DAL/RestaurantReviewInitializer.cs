@@ -26,21 +26,12 @@ namespace Roasts_and_Rants.DAL {
 			context.SaveChanges();
 
 			var restaurants = new List<Restaurant>() {
-				new Restaurant() { Name = "Five Guys", Phone = "654-908-8872" },
-				new Restaurant() { Name = "Whole Foods", Phone = "654-908-3267" },
-				new Restaurant() { Name = "In-N-Out Burger", Phone = "714-887-2218" }
-			};
-
-			var addresses = new List<Address>() {
-				new Address() { AddressID = 1, Street = "11730 Plaza America Dr", City = "Reston", State = "VA", Country = "US", PostalCode = "20190" },
-				new Address() { AddressID = 2, Street = "11660 Plaza America Dr", City = "Reston", State = "VA", Country = "US", PostalCode = "20190"},
-				new Address() { AddressID = 3, Street = "890 Beach Blvd", City = "Huntington Beach", State = "CA", Country = "US", PostalCode = "92690" }
+				new Restaurant() { Name = "Five Guys", Phone = "654-908-8872", Street = "11730 Plaza America Dr", City = "Reston", State = "VA", Country = "US", PostalCode = "20190" },
+				new Restaurant() { Name = "Whole Foods", Phone = "654-908-3267", Street = "11660 Plaza America Dr", City = "Reston", State = "VA", Country = "US", PostalCode = "20190" },
+				new Restaurant() { Name = "In-N-Out Burger", Phone = "714-887-2218", Street = "890 Beach Blvd", City = "Huntington Beach", State = "CA", Country = "US", PostalCode = "92690" }
 			};
 
 			restaurants.ForEach(r => context.Restaurants.Add(r));
-			context.SaveChanges();
-
-			addresses.ForEach(a => context.Addresses.Add(a));			
 			context.SaveChanges();
 
 			var reviews = new List<Review>() {
