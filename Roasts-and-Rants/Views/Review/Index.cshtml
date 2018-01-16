@@ -13,20 +13,24 @@
 <div>
 	<table class="table">
 		<tr>
-			<th>Username</th>
+			<th>User</th>
 			<th>Rating</th>
 			<th>Comment</th>
+			<th>Last Modified Date</th>
 		</tr>
 		@foreach (var item in Model.Reviews) {
 			<tr>
 				<td>
-					<!--Display username-->
+					@Html.DisplayFor(modelItem => item.UserName)
 				</td>
 				<td>
 					@Html.DisplayFor(modelItem => item.Rating)
 				</td>
 				<td>
 					@Html.DisplayFor(modelItem => item.Content)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.ModifiedDate)
 				</td>
 				<td>
 					@Html.ActionLink("Edit", "Edit", new { id = item.ReviewID }) |

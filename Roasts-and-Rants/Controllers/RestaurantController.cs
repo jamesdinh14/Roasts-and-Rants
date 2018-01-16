@@ -10,15 +10,55 @@ using Roasts_and_Rants.DAL;
 using Roasts_and_Rants.Models;
 
 namespace Roasts_and_Rants.Controllers {
+
 	public class RestaurantController : Controller {
+
 		private RestaurantReviewContext db = new RestaurantReviewContext();
 
 		// GET: Restaurant
-		public ActionResult Index() {
-			return View(db.Restaurants.ToList());
+		public ActionResult Index(string sortOrder, string searchString) {
+
+			// Calculate the average of the ratings of each restaurant
+			foreach (Restaurant rest in db.Restaurants) {
+				if (rest.Reviews.Count > 0) {
+					rest.AverageRating = rest.Reviews.Average(review => review.Rating);
+				}
+			}
+
+			ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+			ViewBag.RatingSortParam = sortOrder == "rating" ? "rating_desc" : "rating";
+			var restaurants = from r in db.Restaurants
+							  select r;
+
+			// Check to see if the Name, Phone, or Address fields contains the search string
+			if (!String.IsNullOrEmpty(searchString)) {
+				restaurants = restaurants.Where(r => r.Name.Contains(searchString)
+					|| r.Phone.Contains(searchString) || r.Street.Contains(searchString)
+					|| r.State.Contains(searchString)  || r.City.Contains(searchString)
+					|| r.Country.Contains(searchString) || r.PostalCode.Contains(searchString));
+			}
+
+			// Decide how the list should be ordered
+			IEnumerable<Restaurant> orderedRestaurants;
+			switch (sortOrder) {
+				case "name_desc":
+					orderedRestaurants = restaurants.OrderByDescending(rest => rest.Name);
+					break;
+				case "rating":
+					orderedRestaurants = restaurants.ToList().OrderBy(rest => rest.AverageRating);
+					break;
+				case "rating_desc":
+					orderedRestaurants = restaurants.ToList().OrderByDescending(rest => rest.AverageRating);
+					break;
+				default:
+					orderedRestaurants = restaurants.OrderBy(rest => rest.Name);
+					break;
+			}
+
+			return View(orderedRestaurants.ToList());
 		}
 
-		// GET: Restaurant/Details/5
+		// Redirect to Reviews
 		public ActionResult Details(int? id) {
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -28,6 +68,7 @@ namespace Roasts_and_Rants.Controllers {
 		}
 
 		// GET: Restaurant/Create
+		[Authorize(Roles = "admin")]
 		public ActionResult Create() {
 			return View();
 		}
@@ -37,6 +78,7 @@ namespace Roasts_and_Rants.Controllers {
 		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "admin")]
 		public ActionResult Create([Bind(Include = "Name,Phone,Street,City,State,Country,PostalCode")] Restaurant restaurant) {
 			try {
 				if (ModelState.IsValid) {
@@ -52,6 +94,7 @@ namespace Roasts_and_Rants.Controllers {
 		}
 
 		// GET: Restaurant/Edit/5
+		[Authorize(Roles = "admin")]
 		public ActionResult Edit(int? id) {
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -68,6 +111,7 @@ namespace Roasts_and_Rants.Controllers {
 		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "admin")]
 		//public ActionResult Edit([Bind(Include = "RestaurantID,Name,Phone,Street,City,State,Country,PostalCode")] Restaurant restaurant) {
 		public ActionResult EditPost(int? id) { 
 
@@ -83,12 +127,15 @@ namespace Roasts_and_Rants.Controllers {
 				} catch (DataException) {
 					ModelState.AddModelError("", "Unable to save changes.");
 				}
+			} else {
+				return View(restaurantToUpdate);
 			}
 			
-			return View(restaurantToUpdate);
+			return View("Index");
 		}
 
 		// GET: Restaurant/Delete/5
+		[Authorize(Roles = "admin")]
 		public ActionResult Delete(int? id, bool? saveChangesError=false) {
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -106,6 +153,7 @@ namespace Roasts_and_Rants.Controllers {
 		// POST: Restaurant/Delete/5
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "admin")]
 		public ActionResult Delete(int id) {
 			try {
 				Restaurant restaurant = db.Restaurants.Find(id);

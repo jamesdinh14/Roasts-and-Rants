@@ -48,9 +48,10 @@ namespace Roasts_and_Rants.Models {
 		public virtual Restaurant Restaurant { get; set; }
 
 		/// <summary>
-		/// Reference to User
+		/// Reference to the user that created the review
 		/// </summary>
-		public string UserEmail { get; set; }
+		public string UserID { get; set; }
+		public string UserName { get; set; }
 		
 	}
 }

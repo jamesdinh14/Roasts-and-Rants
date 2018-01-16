@@ -6,19 +6,20 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Roasts_and_Rants.DAL;
 using Roasts_and_Rants.Models;
 
-namespace Roasts_and_Rants.Controllers
-{
-    public class ReviewController : Controller
-    {
-        private RestaurantReviewContext db = new RestaurantReviewContext();
+namespace Roasts_and_Rants.Controllers {
+
+	public class ReviewController : Controller {
+
+		private RestaurantReviewContext db = new RestaurantReviewContext();
+		private ApplicationDbContext context = new ApplicationDbContext();
 
 		// Receives id from RestaurantController
 		// GET: Review/id
 		public ActionResult Index(int? id) {
-
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
@@ -33,117 +34,109 @@ namespace Roasts_and_Rants.Controllers
 		}
 
 		// Currently, not in use
-        // GET: Review/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Review review = db.Reviews.Find(id);
-            if (review == null)
-            {
-                return HttpNotFound();
-            }
-            return View(review);
-        }
+		// GET: Review/Details/5
+		public ActionResult Details(int? id) {
+			if (id == null) {
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Review review = db.Reviews.Find(id);
+			if (review == null) {
+				return HttpNotFound();
+			}
+			return View(review);
+		}
 
-        // GET: Review/Create
-        public ActionResult Create(int RestaurantID, string UserEmail)
-        {
-            ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name");
-            //ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username");
-            return View();
-        }
+		// GET: Review/Create
+		public ActionResult Create(int RestaurantID) {
+			ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name");
+			//ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username");
+			return View();
+		}
 
-        // POST: Review/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Rating,Content")] Review review)
-        {
+		// POST: Review/Create
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Create([Bind(Include = "Rating,Content")] Review review, int RestaurantID) {
+			review.UserID = User.Identity.GetUserId();
+			review.UserName = User.Identity.GetUserName();
+			review.ModifiedDate = DateTime.Now;
+			review.RestaurantID = RestaurantID;
 
-            if (ModelState.IsValid)
-            {
-                db.Reviews.Add(review);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+			if (ModelState.IsValid) {
+				db.Reviews.Add(review);
+				db.SaveChanges();
+				return RedirectToAction("Index", new { id = RestaurantID });
+			}
 
-            ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name", review.RestaurantID);
-            //ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
-            return View(review);
-        }
+			//ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name", review.RestaurantID);
+			//ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
+			return View(review);
+		}
 
-        // GET: Review/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Review review = db.Reviews.Find(id);
-            if (review == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name", review.RestaurantID);
-            //ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
-            return View(review);
-        }
+		// GET: Review/Edit/5
+		public ActionResult Edit(int? id) {
+			if (id == null) {
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
 
-        // POST: Review/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ReviewID,Rating,Content,ModifiedDate,RestaurantID,UserEmail")] Review review)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(review).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name", review.RestaurantID);
-            //ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
-            return View(review);
-        }
+			if (User.Identity.GetUserId() == null) {
+				return RedirectToAction("Login", "Account");
+			}
 
-        // GET: Review/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Review review = db.Reviews.Find(id);
-            if (review == null)
-            {
-                return HttpNotFound();
-            }
-            return View(review);
-        }
+			Review review = db.Reviews.Find(id);
+			if (review == null) {
+				return HttpNotFound();
+			}
+			ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name", review.RestaurantID);
+			//ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
+			return View(review);
+		}
 
-        // POST: Review/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Review review = db.Reviews.Find(id);
-            db.Reviews.Remove(review);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+		// POST: Review/Edit/5
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit([Bind(Include = "ReviewID,Rating,Content,ModifiedDate,RestaurantID,UserEmail")] Review review) {
+			if (ModelState.IsValid) {
+				db.Entry(review).State = EntityState.Modified;
+				db.SaveChanges();
+				return RedirectToAction("Index");
+			}
+			ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name", review.RestaurantID);
+			//ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
+			return View(review);
+		}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-    }
+		// GET: Review/Delete/5
+		public ActionResult Delete(int? id) {
+			if (id == null) {
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Review review = db.Reviews.Find(id);
+			if (review == null) {
+				return HttpNotFound();
+			}
+			return View(review);
+		}
+
+		// POST: Review/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteConfirmed(int id) {
+			Review review = db.Reviews.Find(id);
+			db.Reviews.Remove(review);
+			db.SaveChanges();
+			return RedirectToAction("Index", new { review.RestaurantID });
+		}
+
+		protected override void Dispose(bool disposing) {
+			if (disposing) {
+				db.Dispose();
+			}
+			base.Dispose(disposing);
+		}
+	}
 }
