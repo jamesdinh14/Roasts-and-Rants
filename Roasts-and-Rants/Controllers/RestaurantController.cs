@@ -112,26 +112,16 @@ namespace Roasts_and_Rants.Controllers {
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[Authorize(Roles = "admin")]
-		//public ActionResult Edit([Bind(Include = "RestaurantID,Name,Phone,Street,City,State,Country,PostalCode")] Restaurant restaurant) {
-		public ActionResult EditPost(int? id) { 
+		public ActionResult Edit([Bind(Include = "RestaurantID,Name,Phone,Street,City,State,Country,PostalCode")] Restaurant restaurant) { 
 
-			if (id == null) {
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-
-			var restaurantToUpdate = db.Restaurants.Find(id);
-
-			if (TryUpdateModel(restaurantToUpdate, "", new string[] { "Name", "Phone", "Street", "City", "State", "Country", "PostalCode" })) {
-				try {
-					db.SaveChanges();
-				} catch (DataException) {
-					ModelState.AddModelError("", "Unable to save changes.");
-				}
-			} else {
-				return View(restaurantToUpdate);
-			}
 			
-			return View("Index");
+			if (ModelState.IsValid) {
+				db.Entry(restaurant).State = EntityState.Modified;
+				db.SaveChanges();
+				return View("Index");
+			}
+				
+			return View(restaurant);
 		}
 
 		// GET: Restaurant/Delete/5

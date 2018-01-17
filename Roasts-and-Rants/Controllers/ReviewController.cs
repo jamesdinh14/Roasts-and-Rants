@@ -47,9 +47,10 @@ namespace Roasts_and_Rants.Controllers {
 		}
 
 		// GET: Review/Create
-		public ActionResult Create(int RestaurantID) {
-			ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name");
-			//ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username");
+		[Authorize]
+		public ActionResult Create(int restaurantID, string username) {
+			ViewBag.CurrentRestaurant = restaurantID;
+			ViewBag.CurrentUser = username;
 			return View();
 		}
 
@@ -57,6 +58,7 @@ namespace Roasts_and_Rants.Controllers {
 		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
 		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
+		[Authorize]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create([Bind(Include = "Rating,Content")] Review review, int RestaurantID) {
 			review.UserID = User.Identity.GetUserId();
@@ -89,8 +91,7 @@ namespace Roasts_and_Rants.Controllers {
 			if (review == null) {
 				return HttpNotFound();
 			}
-			ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name", review.RestaurantID);
-			//ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
+			
 			return View(review);
 		}
 
@@ -99,15 +100,16 @@ namespace Roasts_and_Rants.Controllers {
 		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "ReviewID,Rating,Content,ModifiedDate,RestaurantID,UserEmail")] Review review) {
+		public ActionResult Edit([Bind(Include = "ReviewID,Rating,Content,RestaurantID,UserName")] Review review) {
+
+			review.ModifiedDate = DateTime.Now;
 			if (ModelState.IsValid) {
 				db.Entry(review).State = EntityState.Modified;
+
 				db.SaveChanges();
-				return RedirectToAction("Index");
+				return RedirectToAction("Index", new { id = review.RestaurantID });
 			}
-			ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name", review.RestaurantID);
-			//ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
-			return View(review);
+			return View("Index", new { id = review.RestaurantID });
 		}
 
 		// GET: Review/Delete/5

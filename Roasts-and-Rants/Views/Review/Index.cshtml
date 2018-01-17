@@ -7,7 +7,7 @@
 <h2>Reviews for @Model.Name</h2>
 
 <p>
-	@Html.ActionLink("Add a review", "Create", new {RestaurantID = Model.RestaurantID})
+	@Html.ActionLink("Add a review", "Create", new { RestaurantID = Model.RestaurantID })
 </p>
 
 <div>
@@ -33,8 +33,11 @@
 					@Html.DisplayFor(modelItem => item.ModifiedDate)
 				</td>
 				<td>
-					@Html.ActionLink("Edit", "Edit", new { id = item.ReviewID }) |
-					@Html.ActionLink("Delete", "Delete", new { id = item.ReviewID, restaurantID = item.RestaurantID })
+					@if (HttpContext.Current.User.Identity.Name == item.UserName) {
+						@Html.ActionLink("Edit", "Edit", new { id = item.ReviewID })
+						@: | 
+						@Html.ActionLink("Delete", "Delete", new { id = item.ReviewID, restaurantID = item.RestaurantID })
+					}
 				</td>
 			</tr>
 		}

@@ -13,7 +13,7 @@
 	</p>
 }
 
-<p >
+<p>
 	@Html.ActionLink("Add a new restaurant", "Create")
 </p>
 <table class="table">
@@ -24,21 +24,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Phone)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.Street)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.State)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Country)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PostalCode)
-        </th>*@
 		<th>
 			@Html.DisplayName("Address")
 		</th>
@@ -64,11 +49,15 @@
 			@Html.DisplayFor(modelItem => item.AverageRating)
 			(@item.Reviews.Count @{ViewBag.ReviewMessage = (item.Reviews.Count == 1 ? "review" : "reviews");} @ViewBag.ReviewMessage)
 		</td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RestaurantID }) |
-            @Html.ActionLink("Reviews", "Details", new { id=item.RestaurantID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RestaurantID })
-        </td>
+		<td>
+			@Html.ActionLink("Reviews", "Details", new { id = item.RestaurantID })
+			@if (HttpContext.Current.User.IsInRole("admin")) {
+				@: | 
+				@Html.ActionLink("Edit", "Edit", new { id = item.RestaurantID });
+				@:|
+				@Html.ActionLink("Delete", "Delete", new { id = item.RestaurantID });
+			}
+		</td>
     </tr>
 }
 
