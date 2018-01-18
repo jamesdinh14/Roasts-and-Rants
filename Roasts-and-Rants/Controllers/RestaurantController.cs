@@ -19,9 +19,11 @@ namespace Roasts_and_Rants.Controllers {
 		public ActionResult Index(string sortOrder, string searchString) {
 
 			// Calculate the average of the ratings of each restaurant
+
+
 			foreach (Restaurant rest in db.Restaurants) {
 				if (rest.Reviews.Count > 0) {
-					rest.AverageRating = rest.Reviews.Average(review => review.Rating);
+					rest.AverageRating = CalculateAverageRating(rest);
 				}
 			}
 
@@ -58,13 +60,18 @@ namespace Roasts_and_Rants.Controllers {
 			return View(orderedRestaurants.ToList());
 		}
 
+		// Helper method to calculate the Average rating of a restaurant
+		private decimal CalculateAverageRating(Restaurant restaurant) {
+			return restaurant.Reviews.Average(r => r.Rating);
+		}
+
 		// Redirect to Reviews
 		public ActionResult Details(int? id) {
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			return RedirectToAction("Index", "Review", new { id = id });
+			return RedirectToAction("Index", "Review", new { restaurantId = id });
 		}
 
 		// GET: Restaurant/Create

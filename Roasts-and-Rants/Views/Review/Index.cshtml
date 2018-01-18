@@ -14,7 +14,7 @@
 	<table class="table">
 		<tr>
 			<th>User</th>
-			<th>Rating</th>
+			<th>@Html.ActionLink("Rating", "Index", new { RestaurantId = Model.RestaurantID, sortOrder = ViewBag.RatingSortParam })</th>
 			<th>Comment</th>
 			<th>Last Modified Date</th>
 		</tr>

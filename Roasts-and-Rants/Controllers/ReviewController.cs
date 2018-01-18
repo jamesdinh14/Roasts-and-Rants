@@ -19,16 +19,31 @@ namespace Roasts_and_Rants.Controllers {
 
 		// Receives id from RestaurantController
 		// GET: Review/id
-		public ActionResult Index(int? id) {
-			if (id == null) {
+		public ActionResult Index(int? restaurantId, string sortOrder) {
+			if (restaurantId == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			Restaurant restaurant = db.Restaurants.Find(id);
+			ViewBag.RestaurantId = restaurantId;
+			ViewBag.RatingSortParam = String.IsNullOrEmpty(sortOrder) ? "rating" : "rating_desc";
+			Restaurant restaurant = db.Restaurants.Find(restaurantId);
 
 			if (restaurant == null) {
 				return HttpNotFound();
 			}
+
+			switch (sortOrder) {
+				case "rating":
+					restaurant.Reviews = restaurant.Reviews.OrderBy(r => r.Rating).ToList();
+					break;
+				case "rating_desc":
+					restaurant.Reviews = restaurant.Reviews.OrderByDescending(r => r.Rating).ToList();
+					break;
+				default:
+					restaurant.Reviews = restaurant.Reviews.OrderBy(r => r.ModifiedDate).ToList();
+					break;
+			}
+
 
 			return View(restaurant);
 		}
