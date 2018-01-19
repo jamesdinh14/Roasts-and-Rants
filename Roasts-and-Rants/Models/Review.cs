@@ -52,10 +52,5 @@ namespace Roasts_and_Rants.Models {
 		/// </summary>
 		public string UserID { get; set; }
 		public string UserName { get; set; }
-
-		[NotMapped]
-		// Reviews can be anonymous
-		// Username will be displayed by default
-		public bool Anonymous { get; set; } = false;
 	}
 }

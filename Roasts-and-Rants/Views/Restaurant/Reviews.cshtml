@@ -4,45 +4,41 @@
 	ViewBag.Title = "Reviews";
 }
 
-<h2>Reviews</h2>
+<h2>Reviews for @Model.Name</h2>
+
+<p>
+	@Html.ActionLink("Add a review", "Create", "Review", new { RestaurantID = Model.RestaurantID }, null)
+</p>
 
 <div>
-	<h4>Review</h4>
-	<hr />
-	<dl class="dl-horizontal">
-		<dt>
-			@Html.DisplayNameFor(model => model.Name)
-		</dt>
-		<dd>
-			@Html.DisplayFor(model => model.Name)
-		</dd>
-		<dt>
-			@Html.DisplayNameFor(model => model.Reviews)
-		</dt>
-		<dd>
-			<table class="table">
-				<tr>
-					<th>Username</th>
-					<th>Rating</th>
-					<th>Comment</th>
-				</tr>
-				@foreach (var item in Model.Reviews) {
-					<tr>
-						<td>
-							@Html.DisplayFor(modelItem => item.User.Username)
-						</td>
-						<td>
-							@Html.DisplayFor(modelItem => item.Rating)
-						</td>
-						<td>
-							@Html.DisplayFor(modelItem => item.Content)
-						</td>
-					</tr>
-				 }
-			</table>
-		</dd>
-	</dl>
+	<table class="table">
+		<tr>
+			<th>User</th>
+			<th>@Html.ActionLink("Rating", "Reviews", new { id = Model.RestaurantID, sortOrder = ViewBag.RatingSortParam })</th>
+			<th>Comment</th>
+		</tr>
+		@foreach (var item in Model.Reviews) {
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.UserName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Rating)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Content)
+				</td>
+				<td>
+					@if (HttpContext.Current.User.Identity.Name == item.UserName) {
+						@Html.ActionLink("Edit", "Edit", "Review", new { id = item.ReviewID }, null)
+						@: |
+						@Html.ActionLink("Delete", "Delete", "Review", new { id = item.ReviewID, restaurantID = item.RestaurantID }, null)
+					}
+				</td>
+			</tr>
+		}
+	</table>
 </div>
 <p>
-	@Html.ActionLink("Back to Restaurants", "Index")
+	@Html.ActionLink("Back to Restaurants", "Index", "Restaurant")
 </p>

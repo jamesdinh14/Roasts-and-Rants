@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>Restaurants</h2>
 
 @using (Html.BeginForm()) {
 	<p>
@@ -50,7 +50,7 @@
 			(@item.Reviews.Count @{ViewBag.ReviewMessage = (item.Reviews.Count == 1 ? "review" : "reviews");} @ViewBag.ReviewMessage)
 		</td>
 		<td>
-			@Html.ActionLink("Reviews", "Details", new { id = item.RestaurantID })
+			@Html.ActionLink("Reviews", "Reviews", "Restaurant", new { id = item.RestaurantID }, null)
 			@if (HttpContext.Current.User.IsInRole("admin")) {
 				@: | 
 				@Html.ActionLink("Edit", "Edit", new { id = item.RestaurantID });

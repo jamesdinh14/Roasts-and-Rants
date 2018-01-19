@@ -19,33 +19,32 @@ namespace Roasts_and_Rants.Controllers {
 
 		// Receives id from RestaurantController
 		// GET: Review/id
-		public ActionResult Index(int? restaurantId, string sortOrder) {
-			if (restaurantId == null) {
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-
-			ViewBag.RestaurantId = restaurantId;
-			ViewBag.RatingSortParam = String.IsNullOrEmpty(sortOrder) ? "rating" : "rating_desc";
-			Restaurant restaurant = db.Restaurants.Find(restaurantId);
-
-			if (restaurant == null) {
-				return HttpNotFound();
-			}
+		public ActionResult Index(string sortOrder) {
+			
+			ViewBag.NameSortParam = sortOrder == "name_desc" ? "name" : "name_desc";
+			ViewBag.RatingSortParam = sortOrder == "rating" ? "rating_desc" : "rating";
+			var reviews = from r in db.Reviews
+							  select r;
 
 			switch (sortOrder) {
+				case "name":
+					reviews = reviews.OrderBy(r => r.Restaurant.Name);
+					break;
+				case "name_desc":
+					reviews = reviews.OrderByDescending(r => r.Restaurant.Name);
+					break;
 				case "rating":
-					restaurant.Reviews = restaurant.Reviews.OrderBy(r => r.Rating).ToList();
+					reviews = reviews.OrderBy(r => r.Rating);
 					break;
 				case "rating_desc":
-					restaurant.Reviews = restaurant.Reviews.OrderByDescending(r => r.Rating).ToList();
+					reviews = reviews.OrderByDescending(r => r.Rating);
 					break;
 				default:
-					restaurant.Reviews = restaurant.Reviews.OrderBy(r => r.ModifiedDate).ToList();
+					reviews = reviews.OrderBy(r => r.ModifiedDate);
 					break;
 			}
 
-
-			return View(restaurant);
+			return View(reviews);
 		}
 
 		// Currently, not in use
@@ -75,20 +74,17 @@ namespace Roasts_and_Rants.Controllers {
 		[HttpPost]
 		[Authorize]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "Rating,Content")] Review review, int RestaurantID) {
+		public ActionResult Create([Bind(Include = "RestaurantId,Rating,Content,Anonymous")] Review review) {
 			review.UserID = User.Identity.GetUserId();
 			review.UserName = User.Identity.GetUserName();
 			review.ModifiedDate = DateTime.Now;
-			review.RestaurantID = RestaurantID;
 
 			if (ModelState.IsValid) {
 				db.Reviews.Add(review);
 				db.SaveChanges();
-				return RedirectToAction("Index", new { id = RestaurantID });
+				return RedirectToAction("Reviews", "Restaurant", new { id = review.RestaurantID });
 			}
 
-			//ViewBag.RestaurantID = new SelectList(db.Restaurants, "RestaurantID", "Name", review.RestaurantID);
-			//ViewBag.UserEmail = new SelectList(db.Users, "Email", "Username", review.UserEmail);
 			return View(review);
 		}
 
@@ -146,7 +142,7 @@ namespace Roasts_and_Rants.Controllers {
 			Review review = db.Reviews.Find(id);
 			db.Reviews.Remove(review);
 			db.SaveChanges();
-			return RedirectToAction("Index", new { review.RestaurantID });
+			return RedirectToAction("Reviews", "Restaurant", new { review.RestaurantID });
 		}
 
 		protected override void Dispose(bool disposing) {

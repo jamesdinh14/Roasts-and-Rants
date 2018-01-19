@@ -64,13 +64,45 @@ namespace Roasts_and_Rants.Controllers {
 			return restaurant.Reviews.Average(r => r.Rating);
 		}
 
+		// Not in use
 		// Redirect to Reviews
 		public ActionResult Details(int? id) {
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			return RedirectToAction("Index", "Review", new { restaurantId = id });
+			return View();
+			//return RedirectToAction("Reviews", new { id = id });
+			//return RedirectToAction("Index", "Review", new { restaurantId = id });
+		}
+
+		// GET Restaurant/Reviews/5
+		// Displays the list of reviews associated with the selected restaurant
+		public ActionResult Reviews(int? id, string sortOrder) {
+			if (id == null) {
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			ViewBag.RatingSortParam = String.IsNullOrEmpty(sortOrder) ? "rating" : "rating_desc";
+			Restaurant restaurant = db.Restaurants.SingleOrDefault(r => r.RestaurantID == id);
+
+			if (restaurant == null) {
+				return HttpNotFound();
+			}
+
+			switch (sortOrder) {
+				case "rating":
+					restaurant.Reviews = restaurant.Reviews.OrderBy(r => r.Rating).ToList();
+					break;
+				case "rating_desc":
+					restaurant.Reviews = restaurant.Reviews.OrderByDescending(r => r.Rating).ToList();
+					break;
+				default:
+					restaurant.Reviews = restaurant.Reviews.OrderBy(r => r.ModifiedDate).ToList();
+					break;
+			}
+
+			return View(restaurant);
 		}
 
 		// GET: Restaurant/Create

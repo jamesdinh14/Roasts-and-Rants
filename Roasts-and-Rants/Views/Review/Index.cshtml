@@ -1,25 +1,24 @@
-﻿@model Roasts_and_Rants.Models.Restaurant
+﻿@model IEnumerable<Roasts_and_Rants.Models.Review>
 
 @{
 	ViewBag.Title = "Reviews";
 }
 
-<h2>Reviews for @Model.Name</h2>
-
-<p>
-	@Html.ActionLink("Add a review", "Create", new { RestaurantID = Model.RestaurantID })
-</p>
+<h2>@ViewBag.Title</h2>
 
 <div>
 	<table class="table">
 		<tr>
+			<th>@Html.ActionLink("Restaurant", "Index", new { sortOrder = ViewBag.NameSortParam })</th>
 			<th>User</th>
-			<th>@Html.ActionLink("Rating", "Index", new { RestaurantId = Model.RestaurantID, sortOrder = ViewBag.RatingSortParam })</th>
+			<th>@Html.ActionLink("Rating", "Index", new { sortOrder = ViewBag.RatingSortParam })</th>
 			<th>Comment</th>
-			<th>Last Modified Date</th>
 		</tr>
-		@foreach (var item in Model.Reviews) {
+		@foreach (var item in Model) {
 			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Restaurant.Name)
+				</td>
 				<td>
 					@Html.DisplayFor(modelItem => item.UserName)
 				</td>
@@ -30,12 +29,9 @@
 					@Html.DisplayFor(modelItem => item.Content)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.ModifiedDate)
-				</td>
-				<td>
 					@if (HttpContext.Current.User.Identity.Name == item.UserName) {
 						@Html.ActionLink("Edit", "Edit", new { id = item.ReviewID })
-						@: | 
+						@: |
 						@Html.ActionLink("Delete", "Delete", new { id = item.ReviewID, restaurantID = item.RestaurantID })
 					}
 				</td>
@@ -44,5 +40,4 @@
 	</table>
 </div>
 <p>
-	@Html.ActionLink("Back to Restaurants", "Index", "Restaurant")
 </p>
