@@ -10,11 +10,11 @@ namespace Roasts_and_Rants {
 		public static void RegisterRoutes(RouteCollection routes) {
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-			//routes.MapRoute(
-			//	name: "Reviews",
-			//	url: "Restaurant/Review/{id}",
-			//	defaults: new { controller = "Review", action = "Index", id = UrlParameter.Optional }
-			//);
+			routes.MapRoute(
+				name: "Reviews",
+				url: "Restaurant/Review/{id}",
+				defaults: new { controller = "Review", action = "Index", id = UrlParameter.Optional }
+			);
 			routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",

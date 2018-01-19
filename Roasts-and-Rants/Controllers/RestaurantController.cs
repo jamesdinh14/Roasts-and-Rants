@@ -19,14 +19,13 @@ namespace Roasts_and_Rants.Controllers {
 		public ActionResult Index(string sortOrder, string searchString) {
 
 			// Calculate the average of the ratings of each restaurant
-
-
 			foreach (Restaurant rest in db.Restaurants) {
 				if (rest.Reviews.Count > 0) {
 					rest.AverageRating = CalculateAverageRating(rest);
 				}
 			}
 
+			// Decide sort order
 			ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 			ViewBag.RatingSortParam = sortOrder == "rating" ? "rating_desc" : "rating";
 			var restaurants = from r in db.Restaurants
@@ -119,7 +118,7 @@ namespace Roasts_and_Rants.Controllers {
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[Authorize(Roles = "admin")]
-		public ActionResult Edit([Bind(Include = "RestaurantID,Name,Phone,Street,City,State,Country,PostalCode")] Restaurant restaurant) { 
+		public ActionResult Edit([Bind(Include = "RestaurantID,Name,Phone,Street,City,State,Country,PostalCode")] Restaurant restaurant) {
 
 			
 			if (ModelState.IsValid) {
@@ -154,6 +153,7 @@ namespace Roasts_and_Rants.Controllers {
 		public ActionResult Delete(int id) {
 			try {
 				Restaurant restaurant = db.Restaurants.Find(id);
+				db.Reviews.RemoveRange(restaurant.Reviews);
 				db.Restaurants.Remove(restaurant);
 				db.SaveChanges();
 			} catch (DataException) {

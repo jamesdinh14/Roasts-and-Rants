@@ -53,21 +53,23 @@ namespace Roasts_and_Rants.Migrations
 			context.SaveChanges();
 
 			var reviews = new List<Review>() {
-				new Review() { RestaurantID = restaurants.Single(r => r.Name == "Five Guys").RestaurantID, Rating = 7.3M, Content = "Good burgers. Too greasy." },
-				new Review() { RestaurantID = restaurants.Single(r => r.Name == "Whole Foods").RestaurantID, Rating = 10.0M, Content = "It's organic." },
-				new Review() { RestaurantID = restaurants.Single(r => r.Name == "In-N-Out Burger").RestaurantID, Rating = 10.0M, Content = "Best fast food burgers EVAR!!" },
-				new Review() { RestaurantID = restaurants.Single(r => r.Name == "Whole Foods").RestaurantID, Rating = 2.7M, Content = "Everything's too expensive." },
-				new Review() { RestaurantID = restaurants.Single(r => r.Name == "Five Guys").RestaurantID, Rating = 9.0M, Content = "Best burgers you could ask for. Fries are a little disappointing though." },
-				new Review() { RestaurantID = restaurants.Single(r => r.Name == "Five Guys").RestaurantID, Rating = 9.0M, Content = "THUNDEROUS FURY!!" }
+				new Review() { RestaurantID = restaurants.Single(r => r.Name == "Five Guys").RestaurantID, Rating = 7.3M, Content = "Good burgers. Too greasy.", ModifiedDate = DateTime.UtcNow },
+				new Review() { RestaurantID = restaurants.Single(r => r.Name == "Whole Foods").RestaurantID, Rating = 10.0M, Content = "It's organic.", ModifiedDate = DateTime.UtcNow },
+				new Review() { RestaurantID = restaurants.Single(r => r.Name == "In-N-Out Burger").RestaurantID, Rating = 10.0M, Content = "Best fast food burgers EVAR!!", ModifiedDate = DateTime.UtcNow },
+				new Review() { RestaurantID = restaurants.Single(r => r.Name == "Whole Foods").RestaurantID, Rating = 2.7M, Content = "Everything's too expensive.", ModifiedDate = DateTime.UtcNow },
+				new Review() { RestaurantID = restaurants.Single(r => r.Name == "Five Guys").RestaurantID, Rating = 9.0M, Content = "Best burgers you could ask for. Fries are a little disappointing though.", ModifiedDate = DateTime.UtcNow },
+				new Review() { RestaurantID = restaurants.Single(r => r.Name == "Five Guys").RestaurantID, Rating = 9.0M, Content = "THUNDEROUS FURY!!", ModifiedDate = DateTime.UtcNow }
 			};
 
-			foreach (Review r in reviews) {
-				var reviewInDatabase = context.Reviews.Where(rev => r.RestaurantID == rev.RestaurantID);
+			reviews.ForEach(review => context.Reviews.AddOrUpdate(r => r.Content, review));
 
-				if (reviewInDatabase == null) {
-					context.Reviews.Add(r);
-				}
-			}
+			//foreach (Review r in reviews) {
+			//	var reviewInDatabase = context.Reviews.Where(rev => r.RestaurantID == rev.RestaurantID);
+
+			//	if (reviewInDatabase == null) {
+			//		context.Reviews.Add(r);
+			//	}
+			//}
 			context.SaveChanges();
 			
 		}

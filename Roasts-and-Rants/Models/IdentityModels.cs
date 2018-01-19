@@ -21,7 +21,7 @@ namespace Roasts_and_Rants.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("RoastsandRantsAzureDb", throwIfV1Schema: false)
         {
         }
 

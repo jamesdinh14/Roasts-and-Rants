@@ -31,10 +31,16 @@
             @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
 				@Html.TextAreaFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
-
 				@Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
             </div>
         </div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.Anonymous, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.CheckBoxFor(model => model.Anonymous, new { htmlAttributes = new { @class = "form-control" } })
+			</div>
+		</div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -45,7 +51,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index", new { id = ViewBag.CurrentRestaurant })
+    @Html.ActionLink("Back to List", "Index", new { restaurantId = Model.RestaurantID })
 </div>
 
 @section Scripts {

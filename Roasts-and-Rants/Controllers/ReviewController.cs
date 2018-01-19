@@ -63,9 +63,9 @@ namespace Roasts_and_Rants.Controllers {
 
 		// GET: Review/Create
 		[Authorize]
-		public ActionResult Create(int restaurantID, string username) {
+		public ActionResult Create(int restaurantID) {
 			ViewBag.CurrentRestaurant = restaurantID;
-			ViewBag.CurrentUser = username;
+			ViewBag.CurrentUser = User.Identity.GetUserId();
 			return View();
 		}
 
